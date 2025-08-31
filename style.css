@@ -35,14 +35,18 @@ header h1{
   gap:12px;
   align-items:center;
 }
-#btn-reset{
+#btn-reset,
+#btn-export,
+.btn-like{
   padding:8px 12px;
   border:1px solid var(--borde);
   background:#fff;
   border-radius:8px;
   cursor:pointer;
 }
-#btn-reset:hover{ filter:brightness(0.97) }
+#btn-reset:hover,
+#btn-export:hover,
+.btn-like:hover{ filter:brightness(0.97) }
 #toggle-prereq{ margin-left:6px }
 
 /* ====== Contenedor de malla ====== */
@@ -122,12 +126,21 @@ header h1{
 .badge.ok{ border-color:var(--ok); color:var(--ok) }
 .badge.req{ border-color:var(--bloq); color:var(--bloq) }
 
-/* Estados visuales del curso */
+/* ====== Estados del curso ====== */
 .curso.aprobado{
   background:#eafaf0;
   border-color:var(--aprob);
-  text-decoration:line-through;
+  text-decoration:none !important; /* no tachar todo */
 }
+.curso.aprobado .nombre{
+  text-decoration:line-through !important; /* solo el nombre */
+}
+.prereq-panel,
+.prereq-panel *{
+  text-decoration:none !important; /* nunca tachar el panel */
+}
+.btn-prereq{ text-decoration:none !important; }
+
 .curso.desbloqueado{
   outline:2px solid var(--ok);
   outline-offset:2px;
@@ -137,7 +150,6 @@ header h1{
 }
 
 /* ====== Botón "Ver pre" ====== */
-/* Va abajo de la tarjeta, no choca con el badge */
 .btn-prereq{
   margin-top:8px;
   align-self:flex-start;
