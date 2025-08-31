@@ -73,12 +73,35 @@ async function cargarMalla() {
       `;
 
       // click en tarjeta: toggle aprobado
-      card.addEventListener("click", () => {
-        if (cursosAprobados.has(c.id)) cursosAprobados.delete(c.id);
-        else cursosAprobados.add(c.id);
-        guardaProgreso();
-        cargarMalla(); // re-render para recalcular estados
-      });
+      // click en tarjeta: toggle aprobado (respetando prerrequisitos)
+card.addEventListener("click", () => {
+  const yaAprobado = cursosAprobados.has(c.id);
+  const desbloqNow = tieneTodos(c.prerrequisitos || []);
+
+  // Si NO cumple prerrequisitos y aún no está aprobado → bloquear
+  if (!desbloqNow && !yaAprobado) {
+    // feedback visual + abrir panel de pre
+    const panel = card.querySelector(".prereq-panel");
+    const btn = card.querySelector(".btn-prereq");
+    renderPrereqPanel(panel, c);
+    panel.classList.add("open");
+    if (btn) btn.textContent = "Ocultar pre";
+
+    // pequeña animación de shake
+    card.classList.remove("denegado");
+    void card.offsetWidth; // reflow para reiniciar animación
+    card.classList.add("denegado");
+    return; // NO marcar como aprobado
+  }
+
+  // Si cumple prerrequisitos (o ya estaba aprobado), toggle normal
+  if (yaAprobado) cursosAprobados.delete(c.id);
+  else cursosAprobados.add(c.id);
+
+  guardaProgreso();
+  cargarMalla(); // re-render para recalcular estados
+});
+
 
       // botón "Ver pre": abrir/cerrar panel (sin marcar aprobado)
       const btn = card.querySelector(".btn-prereq");
@@ -116,3 +139,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cargarMalla();
 });
+
