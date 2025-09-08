@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <button id="btn-export">Exportar progreso</button>
-  <label for="file-import" class="btn-like">Importar progreso</label>
-  <input id="file-import" type="file" accept="application/json" style="display:none" />
-
-  <h3>WEB EN DESARROLLO</h3>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Malla Interactiva</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<!-- Tooltip flotante para hover -->
-<div id="tooltip" class="tooltip hidden" role="tooltip" aria-hidden="true"></div>
-
-<!-- Mini menú (popover) para click -->
-<div id="popover" class="popover hidden" role="dialog" aria-modal="false" aria-labelledby="pop-title">
-  <div class="pop-header">
-    
-    
-  </div>
-  <div id="pop-body"></div>
-</div>
-
 <body>
   <header>
     <h1>Malla Bioquímica — Interactiva</h1>
+
     <div class="acciones">
+      <!-- Reset y toggle -->
       <button id="btn-reset">Reiniciar progreso</button>
       <label>
         <input type="checkbox" id="toggle-prereq" checked />
         Mostrar desbloqueados
       </label>
     </div>
+
+    <!-- Mensaje opcional -->
+    <h3 style="margin-top:8px">WEB EN DESARROLLO</h3>
   </header>
 
+  <!-- Contenedor de la malla -->
   <main id="malla"></main>
 
+  <!-- Tooltip flotante para hover (dentro del body) -->
+  <div id="tooltip" class="tooltip hidden" role="tooltip" aria-hidden="true"></div>
 
+  <!-- Mini menú (popover) para click (dentro del body) -->
+  <div id="popover" class="popover hidden" role="dialog" aria-modal="false" aria-labelledby="pop-title">
+    <div class="pop-header"></div>
+    <div id="pop-body"></div>
+  </div>
 
+  <!-- Carga el JS al final para que todos los elementos existan -->
   <script src="script.js"></script>
 </body>
 </html>

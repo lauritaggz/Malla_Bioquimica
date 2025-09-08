@@ -51,6 +51,11 @@ async function cargarMalla() {
     sem.cursos.forEach((c) => {
       const card = document.createElement("div");
       card.className = "curso";
+
+      // 🎨 agregar clase de área
+      card.classList.add(c.area || 'otros');
+
+
       card.dataset.id = c.id;
 
       const aprobado = cursosAprobados.has(c.id);
@@ -60,7 +65,7 @@ async function cargarMalla() {
       if (desbloq && mostrarDesbloqueados) card.classList.add("desbloqueado");
       if (!desbloq && !aprobado) card.classList.add("bloqueado");
 
-      // estructura
+      // estructura interna
       card.innerHTML = `
         <span class="codigo">${c.codigo || "COD"}</span>
         <span class="nombre">${c.nombre}</span>
@@ -72,20 +77,22 @@ async function cargarMalla() {
         <div class="prereq-panel"></div>
       `;
 
-      // click en tarjeta: toggle aprobado
+      // click en tarjeta
       card.addEventListener("click", () => {
-        if (cursosAprobados.has(c.id)) cursosAprobados.delete(c.id);
-        else cursosAprobados.add(c.id);
+        if (cursosAprobados.has(c.id)) {
+          cursosAprobados.delete(c.id);
+        } else {
+          cursosAprobados.add(c.id);
+        }
         guardaProgreso();
-        cargarMalla(); // re-render para recalcular estados
+        cargarMalla();
       });
 
-      // botón "Ver pre": abrir/cerrar panel (sin marcar aprobado)
+      // botón prerrequisitos
       const btn = card.querySelector(".btn-prereq");
       const panel = card.querySelector(".prereq-panel");
       btn.addEventListener("click", (ev) => {
-        ev.stopPropagation(); // evita togglear aprobado
-        // actualizar contenido según estado actual
+        ev.stopPropagation();
         renderPrereqPanel(panel, c);
         panel.classList.toggle("open");
         btn.textContent = panel.classList.contains("open") ? "Ocultar pre" : "Ver pre";
@@ -93,6 +100,7 @@ async function cargarMalla() {
 
       col.appendChild(card);
     });
+
 
     contenedor.appendChild(col);
   });

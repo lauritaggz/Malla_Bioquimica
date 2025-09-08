@@ -1,12 +1,24 @@
 /* ====== Variables y reset ====== */
 :root{
-  --borde:#222;
-  --ok:#2ecc71;
-  --bloq:#e67e22;
-  --aprob:#27ae60;
-  --bg:#f6f7fb;
-  --txt:#111;
+  /* Colores base pastel */
+  --matematica:#A7C7E7;  /* Azul pastel */
+  --quimica:#FFF4B2;     /* Amarillo pastel */
+  --fisica:#C5D6E0;      /* Gris azulado pastel */
+  --biologia:#B5EAD7;    /* Verde pastel */
+  --formacion:#E2CFEA;   /* Lila pastel */
+  --otros:#F7C6C7;       /* Rosa pastel */
+
+  /* Estado y bordes */
+  --borde:#d4bfcf; 
+  --ok:#89D0A6;
+  --bloq:#FBCB9A;
+  --aprob:#6BCF62;
+
+  /* Fondo y texto */
+  --bg:#fff9fa;
+  --txt:#4A4A4A;
 }
+
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -24,10 +36,24 @@ header{
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  margin-bottom:16px;
+  margin-bottom:24px;
+  padding: 12px 18px;
+  background: rgba(255, 192,203, 0,2);
+  border: 2px solid #f3d6de;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+
 }
 header h1{
-  font-size:20px;
+  font-size:22px;
+  font-weight: 700;
+  color: #444;
+  background: linear-gradient(90deg, #A7C7E7,#E2CFEA,#F7C6C7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
   margin:0;
 }
 .acciones{
@@ -35,15 +61,28 @@ header h1{
   gap:12px;
   align-items:center;
 }
-#btn-reset{
-  padding:8px 12px;
-  border:1px solid var(--borde);
+#btn-reset,
+#btn-export,
+.btn-like{
+  padding:8px 14px;
+  border:2px solid #f3d6de;
   background:#fff;
-  border-radius:8px;
+  border-radius:10px;
   cursor:pointer;
+  font-size: 14px;
+  font-weight:500;
+  transition:all 0.25s ease;
 }
-#btn-reset:hover{ filter:brightness(0.97) }
-#toggle-prereq{ margin-left:6px }
+#btn-reset:hover,
+#btn-export:hover,
+.btn-like:hover{ 
+  background: #ffeaf0;
+  transform:scale(1.03);
+}
+#toggle-prereq{ 
+  margin-left:6px; 
+  accent-color:#f7a6b1;
+}
 
 /* ====== Contenedor de malla ====== */
 #malla{
@@ -79,14 +118,26 @@ header h1{
   padding:8px;
   margin:8px 0;
   cursor:pointer;
-  transition:box-shadow .15s ease, transform .05s ease;
+  transition:box-shadow .15s ease, transform .15s ease;
+}
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 .curso:hover{
   box-shadow:0 6px 18px rgba(0,0,0,.08);
+  transform:scale(1.02);
 }
-.curso:active{
-  transform:scale(0.997);
-}
+.curso:active{ transform:scale(0.995) }
+
+/* ====== Colores por área ====== */
+.curso.matematica{ background:var(--matematica) }
+.curso.quimica{ background:var(--quimica) }
+.curso.fisica{ background:var(--fisica) }
+.curso.biologia{ background:var(--biologia) }
+.curso.formacion{ background:var(--formacion) }
+.curso.otros{ background:var(--otros) }
 
 /* Contenido del curso */
 .curso .codigo{
@@ -122,30 +173,27 @@ header h1{
 .badge.ok{ border-color:var(--ok); color:var(--ok) }
 .badge.req{ border-color:var(--bloq); color:var(--bloq) }
 
-/* Estados visuales del curso */
+/* ====== Estados del curso ====== */
 .curso.aprobado{
-  background:#eafaf0;
   border-color:var(--aprob);
+  text-decoration:none !important;
+  animation:fadeIn .6s ease;
 }
-.curso.aprobado{
-  background:#eafaf0;
-  border-color:var(--aprob);
-}
-
 .curso.aprobado .nombre{
-  text-decoration: line-through;
+  text-decoration:line-through !important;
+}
+@keyframes fadeIn{
+  from{ opacity:0.6; transform:scale(0.97); }
+  to{ opacity:1; transform:scale(1); }
 }
 
 .curso.desbloqueado{
   outline:2px solid var(--ok);
   outline-offset:2px;
 }
-.curso.bloqueado{
-  opacity:.60;
-}
+.curso.bloqueado{ opacity:.60 }
 
 /* ====== Botón "Ver pre" ====== */
-/* Va abajo de la tarjeta, no choca con el badge */
 .btn-prereq{
   margin-top:8px;
   align-self:flex-start;
@@ -156,8 +204,9 @@ header h1{
   font-size:12px;
   cursor:pointer;
   user-select:none;
+  transition:all .2s ease;
 }
-.btn-prereq:hover{ filter:brightness(0.97) }
+.btn-prereq:hover{ filter:brightness(0.95); transform:scale(1.05) }
 .btn-prereq:focus{
   outline:2px solid #4c9ffe;
   outline-offset:2px;
@@ -170,7 +219,7 @@ header h1{
   padding:8px;
   border:1px dashed #bbb;
   border-radius:8px;
-  background:#fafafa;
+  background:#fff0f6;
   font-size:13px;
 }
 .prereq-panel.open{ display:block }
@@ -186,10 +235,10 @@ header h1{
   outline-offset:2px;
 }
 
-/* ====== Scrollbar sutil (opcional) ====== */
+/* ====== Scrollbar sutil ====== */
 #malla::-webkit-scrollbar{ height:10px }
 #malla::-webkit-scrollbar-thumb{
-  background:#cfd3da; border-radius:10px; border:2px solid transparent; background-clip:content-box;
+  background:#f1c6d7; border-radius:10px; border:2px solid transparent; background-clip:content-box;
 }
 #malla::-webkit-scrollbar-track{ background:transparent }
 
@@ -205,11 +254,65 @@ header h1{
   .curso{ padding:8px }
   .curso .nombre{ font-size:13px }
 }
-#btn-export, .btn-like{
-  padding:8px 12px;
-  border:1px solid var(--borde);
-  background:#fff;
-  border-radius:8px;
-  cursor:pointer;
+/* ===== Fondo general pastel ===== */
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: linear-gradient( #fff0f5);
+  background-attachment: fixed;
+  color: var(--txt);
+  margin: 0;
+  padding: 24px;
+  animation: fadeBody 1.2s ease-in;
 }
-#btn-export:hover, .btn-like:hover{ filter:brightness(0.97) }
+
+@keyframes fadeBody {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ===== Tarjetas animadas ===== */
+.curso {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 8px;
+  margin: 8px 0;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.25s ease;
+  
+}
+
+.curso:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Pequeño efecto de entrada */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Glow en hover por área ===== */
+.curso.matematica:hover { box-shadow: 0 0 15px rgba(167,199,231,0.6); }
+.curso.quimica:hover    { box-shadow: 0 0 15px rgba(255,244,178,0.6); }
+.curso.fisica:hover     { box-shadow: 0 0 15px rgba(197,214,224,0.6); }
+.curso.biologia:hover   { box-shadow: 0 0 15px rgba(181,234,215,0.6); }
+.curso.formacion:hover  { box-shadow: 0 0 15px rgba(226,207,234,0.6); }
+.curso.otros:hover      { box-shadow: 0 0 15px rgba(247,198,199,0.6); }
+
+/* ===== Semestres ===== */
+.semestre {
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid var(--borde);
+  border-radius: 12px;
+  padding: 12px;
+  backdrop-filter: blur(6px); /* efecto de vidrio esmerilado */
+  transition: transform 0.3s ease;
+}
+
+.semestre:hover {
+  transform: scale(1.01);
+}
